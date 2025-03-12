@@ -34,11 +34,11 @@ const App: React.FC = () => {
       </header>
       {!selectedRoom ? (
         <>
-          {/* <ProfilePictureUpload /> */}
+          <ProfilePictureUpload />
           <ChatRoomList selectRoom={setSelectedRoom} />
         </>
       ) : (
-        <div style={{height: '90%'}}>
+        <div style={{height: '85%'}}>
           <button className='btn-primary rounded' onClick={() => setSelectedRoom(null)}>Back to Rooms</button>
           <ChatRoom room={selectedRoom} />
         </div>

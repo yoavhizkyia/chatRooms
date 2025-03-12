@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { storage, auth } from '../../config/firebase';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { updateProfile } from 'firebase/auth';
+
+import { storage, auth } from '../../config/firebase';
 
 const ProfilePictureUpload: React.FC = () => {
     const [file, setFile] = useState<File | null>(null);
@@ -13,8 +14,6 @@ const ProfilePictureUpload: React.FC = () => {
             setError(null);
         }
     };
-
-    //TODO: fix the uploadProfile cors error
 
     const uploadProfilePicture = () => {
         if (!auth.currentUser) {
@@ -32,7 +31,8 @@ const ProfilePictureUpload: React.FC = () => {
         uploadTask.on(
             'state_changed',
             (snapshot) => {
-                // Optional: Monitor progress here.
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log(`Upload is ${progress}% done, state: ${snapshot.state}`);
             },
             (uploadError) => {
                 console.error('Upload error:', uploadError);
@@ -60,10 +60,10 @@ const ProfilePictureUpload: React.FC = () => {
     };
 
     return (
-        <div>
+        <div className='d-flex flex-column align-items-center mb-3'>
             <input type="file" onChange={handleFileChange} />
-            <button onClick={uploadProfilePicture}>Upload Profile Picture</button>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+            <button className='btn-primary rounded' onClick={uploadProfilePicture}>Upload Profile Picture</button>
+            {error && <p className='text-danger'>{error}</p>}
         </div>
     );
 };
