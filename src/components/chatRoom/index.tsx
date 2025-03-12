@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
 
 import { db } from '../../config/firebase';
-import MessageList, { Message } from '../messageList';
+import MessageList from '../messageList';
 import MessageInput from '../messageInput';
+import { Message } from '../../models/message';
 
 interface ChatRoomProps {
     room: string;
@@ -27,9 +28,11 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ room }) => {
     }, [room]);
 
     return (
-        <div>
-            <h2>{room} Chat Room</h2>
-            <MessageList messages={messages} />
+        <div className='d-flex flex-column justify-content-between' style={{height:'90%'}}>
+            <div>
+                <h2 className='d-flex justify-content-center'>{`${room} Chat Room`}</h2>
+                <MessageList messages={messages} />
+            </div>
             <MessageInput room={room} />
         </div>
     );

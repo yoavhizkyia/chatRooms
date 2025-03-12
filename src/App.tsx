@@ -1,38 +1,45 @@
-import React, { useState, useEffect } from 'react';
-import { onAuthStateChanged, User } from 'firebase/auth';
+import React from 'react';
 
 import ChatRoomList from './components/chatRoomList';
 import ChatRoom from './components/chatRoom';
 import ProfilePictureUpload from './components/profilePicture';
-import SignIn from './components/auth';
-import { auth } from './config/firebase';
+import { useAuth } from "./contexts/auth";
+import { APP_HEADER, SIGN_IN_WITH_GOOGLE, SIGN_OUT } from './models/contants';
 
 const App: React.FC = () => {
-  const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
-  const [user, setUser] = useState<User | null>(null);
+  const [selectedRoom, setSelectedRoom] = React.useState<string | null>(null);
+  const { user, loading, signInWithGoogle, signOutUser } = useAuth();
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-    });
-    return () => unsubscribe();
-  }, []);
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   if (!user) {
-    return <SignIn />;
+    return (
+      <div className='text-center p-4'>
+        <h1>{APP_HEADER}</h1>
+        <button className='btn-primary rounded' onClick={signInWithGoogle}>{SIGN_IN_WITH_GOOGLE}</button>
+      </div>
+    );
   }
 
   return (
-    <div className="container">
-      <h1>Firebase Chat App</h1>
+    <div className='container-fluid vh-100'>
+      <header className='d-flex justify-content-between align-items-center mb-3'>
+        <h1>{APP_HEADER}</h1>
+        <div>
+          <span className='me-3'>Welcome, {user.displayName || "User"}</span>
+          <button className='btn-primary rounded' onClick={signOutUser}>{SIGN_OUT}</button>
+        </div>
+      </header>
       {!selectedRoom ? (
         <>
-          <ProfilePictureUpload />
+          {/* <ProfilePictureUpload /> */}
           <ChatRoomList selectRoom={setSelectedRoom} />
         </>
       ) : (
-        <div>
-          <button onClick={() => setSelectedRoom(null)}>Back to Rooms</button>
+        <div style={{height: '90%'}}>
+          <button className='btn-primary rounded' onClick={() => setSelectedRoom(null)}>Back to Rooms</button>
           <ChatRoom room={selectedRoom} />
         </div>
       )}

@@ -1,7 +1,8 @@
-// src/MessageInput.tsx
 import React, { useState } from 'react';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+
 import { db, auth } from '../../config/firebase';
+import { CHAT_INPUT_PLACEHOLDER, SEND } from '../../models/contants';
 
 interface MessageInputProps {
     room: string;
@@ -30,12 +31,13 @@ const MessageInput: React.FC<MessageInputProps> = ({ room }) => {
     return (
         <form onSubmit={sendMessage}>
             <input
+                style={{width: '90%'}}
                 type="text"
                 value={message}
                 onChange={e => setMessage(e.target.value)}
-                placeholder="Type your message..."
+                placeholder={CHAT_INPUT_PLACEHOLDER}
             />
-            <button type="submit">Send</button>
+            <button type="submit">{SEND}</button>
         </form>
     );
 };
