@@ -4,14 +4,14 @@ import ChatRoomList from './components/chatRoomList';
 import ChatRoom from './components/chatRoom';
 import ProfilePictureUpload from './components/profilePicture';
 import { useAuth } from "./contexts/auth";
-import { APP_HEADER, SIGN_IN_WITH_GOOGLE, SIGN_OUT } from './models/contants';
+import { APP_HEADER, LOADING_BAR, SIGN_IN_WITH_GOOGLE, SIGN_OUT } from './models/contants';
 
 const App: React.FC = () => {
   const [selectedRoom, setSelectedRoom] = React.useState<string | null>(null);
   const { user, loading, signInWithGoogle, signOutUser } = useAuth();
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>{LOADING_BAR}</div>;
   }
 
   if (!user) {

@@ -3,6 +3,7 @@ import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { updateProfile } from 'firebase/auth';
 
 import { storage, auth } from '../../config/firebase';
+import { PROFILE_PICTURE_UPLOAD } from '../../models/contants';
 
 const ProfilePictureUpload: React.FC = () => {
     const [file, setFile] = useState<File | null>(null);
@@ -62,7 +63,7 @@ const ProfilePictureUpload: React.FC = () => {
     return (
         <div className='d-flex flex-column align-items-center mb-3'>
             <input type="file" onChange={handleFileChange} />
-            <button className='btn-primary rounded' onClick={uploadProfilePicture}>Upload Profile Picture</button>
+            <button className='btn-primary rounded' onClick={uploadProfilePicture}>{PROFILE_PICTURE_UPLOAD}</button>
             {error && <p className='text-danger'>{error}</p>}
         </div>
     );

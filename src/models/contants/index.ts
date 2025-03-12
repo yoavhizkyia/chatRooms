@@ -5,3 +5,5 @@ export const CHAT_INPUT_PLACEHOLDER = 'Type your message...';
 export const SIGN_IN_WITH_GOOGLE = 'Sign In with Google';
 export const SIGN_OUT = 'Sign Out';
 export const SEND = 'send';
+export const LOADING_BAR = 'Loading...';
+export const PROFILE_PICTURE_UPLOAD = 'Upload Profile Picture';
